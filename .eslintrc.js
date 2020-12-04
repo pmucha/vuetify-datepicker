@@ -21,7 +21,13 @@ module.exports = {
     "no-unneeded-ternary": "error",
     "no-multiple-empty-lines": ["error", { "max": 2 }],
     "yoda": "error",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "ignore",
+      "exports": "ignore",
+      "functions": "ignore"
+    }],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
   }
