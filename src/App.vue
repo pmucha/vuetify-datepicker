@@ -2,7 +2,8 @@
   <v-app>
     <v-container>
       <v-row justify="center">
-        <date-picker />
+        <date-picker v-if="!this.$vuetify.breakpoint.mobile" />
+        <date-picker-mobile v-else />
       </v-row>
     </v-container>
   </v-app>
@@ -11,11 +12,17 @@
 
 <script>
 import DatePicker from "./components/DatePicker.vue"
+import DatePickerMobile from "./components/DatePickerMobile.vue"
 
 export default {
   name: "App",
   components: {
     DatePicker,
+    DatePickerMobile,
+  },
+
+  mounted () {
+    console.log(this.$vuetify.break)
   },
 }
 </script>
