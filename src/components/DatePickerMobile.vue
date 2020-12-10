@@ -3,7 +3,7 @@
     <v-card class="date-picker-mobile elevation-2 mx-auto">
       <v-card-text>
         <v-row>
-          <v-col cols="12">
+          <v-col cols="12" class="pt-0">
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -62,11 +62,11 @@
                 >Previous month</v-btn
               >
             </v-row>
-            <v-row class="pl-2 pt-6">
+            <v-row class="pl-2 pt-0">
               <v-checkbox
                 v-model="compare"
                 label="Compare to the following"
-                class="compare-label"
+                class="compare-label pt-0"
               />
             </v-row>
             <v-row>
