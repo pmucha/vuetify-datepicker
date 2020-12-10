@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-card class="picker elevation-2 mx-auto">
-      <v-card-text class="picker__pickers">
+    <v-card class="date-picker-mobile elevation-2 mx-auto">
+      <v-card-text>
         <v-row>
           <v-col cols="12">
             <v-row>
@@ -131,11 +131,9 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn text class="px-4">Cancel</v-btn>
         <v-spacer />
-        <v-btn large class="primary px-7" @click="generateJson">
-          Set dates
-        </v-btn>
+        <v-btn text class="px-4 mr-3">Cancel</v-btn>
+        <v-btn large class="primary px-7" @click="generateJson"> Apply </v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -271,59 +269,25 @@ export default {
 </script>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "~vuetify/src/styles/styles.sass";
 
-.picker {
+.date-picker-mobile::v-deep {
   width: 1040px;
-}
 
-.picker-input {
-  .v-text-field__details {
-    display: none;
-  }
-}
+  .picker-input {
+    // Under the date inputs there is a place
+    // for some details, which are completely
+    // unnecessary
+    .v-text-field__details {
+      display: none;
+    } // .v-text-field__details
+  } // .picker-input
 
-.picker-main-left .v-date-picker-header > button:nth-of-type(2) {
-  display: none;
-}
-
-.picker-main-right .v-date-picker-header > button:nth-of-type(1) {
-  display: none;
-}
-
-// The secondary date picker should be translated
-// over the primary and many of its elements should
-// become invisible.
-.picker-compare {
-  transform: translateY(-100%);
-
-  // Header should be rendered but not visible
-  .v-date-picker-header {
-    opacity: 0;
-  }
-
-  .v-date-picker-table {
-    thead {
-      opacity: 0;
+  .compare-label {
+    .v-messages {
+      display: none;
     }
-
-    button:not(.picker-compare-selected) {
-      color: transparent;
-    }
-  } // .v-date-picker-table
-
-  > .v-picker {
-    background-color: transparent !important;
-    > .v-picker__body {
-      background-color: transparent !important;
-    }
-  } // > .v-picker
-} // .picker-compare
-
-.compare-label {
-  .v-messages {
-    display: none;
-  }
-}
+  } // .compare-label
+} // .date-picker-mobile
 </style>
