@@ -181,9 +181,7 @@ export default {
       },
       set (val) {
         this.compare_ = val
-        if (this.compare) {
-          this.pickerMainIsActive = false
-        }
+        this.pickerMainIsActive = !this.compare_
       },
     }, // compare
   }, // computed
