@@ -27,7 +27,6 @@
                   :max="this.today"
                   :picker-date.sync="pickerMainRight"
                   class="picker-main-right"
-                  header-color="orange darken-3"
                 />
               </v-col>
             </v-row>
@@ -56,7 +55,6 @@
                   :max="this.today"
                   :picker-date.sync="pickerMainRight"
                   class="picker-compare-right"
-                  header-color="orange darken-3"
                 />
               </v-col>
             </v-row>
@@ -86,7 +84,7 @@
                 />
               </v-col>
             </v-row>
-            <v-row justify="space-between" class="pl-2 pr-1">
+            <v-row class="pl-2 pr-1">
               <v-btn text x-small @click="setMainLast7Days">Last 7 days</v-btn>
               <v-btn text x-small @click="setMainPrevWeek">Prev. week</v-btn>
               <v-btn text x-small @click="setMainLastMonth">Last month</v-btn>
@@ -247,6 +245,8 @@ export default {
     setMainLast7Days () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = true
+
       this.pickerMain = [
         moment().subtract(7, "days").format(DATE_FORMAT),
         moment().subtract(1, "day").format(DATE_FORMAT),
@@ -256,6 +256,8 @@ export default {
     // Sets the main date picker to the Monday to Sunday of the previous week
     setMainPrevWeek () {
       const moment = this.$moment
+
+      this.pickerMainIsActive = true
 
       this.pickerMain = [
         moment().subtract(1, "week").day(1).format(DATE_FORMAT),
@@ -280,6 +282,8 @@ export default {
     setMainPrevMonth () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = true
+
       this.pickerMain = [
         moment().subtract(1, "month").date(1).format(DATE_FORMAT),
         moment().date(0).format(DATE_FORMAT),
@@ -295,6 +299,8 @@ export default {
 
       const mainDuration = moment(mainRangeEnd).diff(moment(mainRangeStart), "days")
 
+      this.pickerMainIsActive = false
+
       this.pickerCompare = [
         moment(mainRangeStart).subtract(1 + mainDuration, "days").format(DATE_FORMAT),
         moment(mainRangeEnd).subtract(1 + mainDuration, "days").format(DATE_FORMAT),
@@ -306,6 +312,8 @@ export default {
     setComparePreviousMonth () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = false
+
       this.pickerCompare = [
         moment(this.pickerMain[0]).subtract(1, "month").format(DATE_FORMAT),
         moment(this.pickerMain[1]).subtract(1, "month").format(DATE_FORMAT),
@@ -316,6 +324,8 @@ export default {
     // duration to the compare picker, but this duration earlier
     setComparePreviousYear () {
       const moment = this.$moment
+
+      this.pickerMainIsActive = false
 
       this.pickerCompare = [
         moment(this.pickerMain[0]).subtract(1, "year").format(DATE_FORMAT),
@@ -377,7 +387,7 @@ export default {
 
     &:not(.active) {
       .picker-main-selected {
-        color: black;
+        color: darkgrey;
       }
     }
   } // .picker-main

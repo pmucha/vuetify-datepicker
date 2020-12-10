@@ -194,6 +194,8 @@ export default {
     setMainLast7Days () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = true
+
       this.pickerMain = [
         moment().subtract(7, "days").format(DATE_FORMAT),
         moment().subtract(1, "day").format(DATE_FORMAT),
@@ -203,6 +205,8 @@ export default {
     // Sets the main date picker to the Monday to Sunday of the previous week
     setMainPrevWeek () {
       const moment = this.$moment
+
+      this.pickerMainIsActive = true
 
       this.pickerMain = [
         moment().subtract(1, "week").day(1).format(DATE_FORMAT),
@@ -217,6 +221,8 @@ export default {
     setMainLastMonth () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = true
+
       this.pickerMain = [
         moment().subtract(1, "month").format(DATE_FORMAT),
         moment().subtract(1, "day").format(DATE_FORMAT),
@@ -226,6 +232,8 @@ export default {
     // Sets the range to 1st to last of the previous month.
     setMainPrevMonth () {
       const moment = this.$moment
+
+      this.pickerMainIsActive = true
 
       this.pickerMain = [
         moment().subtract(1, "month").date(1).format(DATE_FORMAT),
@@ -240,6 +248,8 @@ export default {
       const mainRangeStart = this.pickerMain[0]
       const mainRangeEnd = this.pickerMain[1]
 
+      this.pickerMainIsActive = false
+
       const mainDuration = moment(mainRangeEnd).diff(moment(mainRangeStart), "days")
 
       this.pickerCompare = [
@@ -253,6 +263,8 @@ export default {
     setComparePreviousMonth () {
       const moment = this.$moment
 
+      this.pickerMainIsActive = false
+
       this.pickerCompare = [
         moment(this.pickerMain[0]).subtract(1, "month").format(DATE_FORMAT),
         moment(this.pickerMain[1]).subtract(1, "month").format(DATE_FORMAT),
@@ -263,6 +275,8 @@ export default {
     // duration to the compare picker, but this duration earlier
     setComparePreviousYear () {
       const moment = this.$moment
+
+      this.pickerMainIsActive = false
 
       this.pickerCompare = [
         moment(this.pickerMain[0]).subtract(1, "year").format(DATE_FORMAT),
@@ -325,7 +339,7 @@ export default {
 
     &:not(.active) {
       .picker-main-selected {
-        color: black;
+        color: darkgrey;
       }
     }
   } // .picker-main
