@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <v-container>
+    <v-container fluid>
       <v-row justify="center">
-        <date-picker v-if="!this.$vuetify.breakpoint.mobile" />
+        <date-picker-desktop v-if="this.$vuetify.breakpoint.mdAndUp" />
+        <date-picker-tablet v-else-if="this.$vuetify.breakpoint.smAndUp" />
         <date-picker-mobile v-else />
       </v-row>
     </v-container>
@@ -11,18 +12,20 @@
 
 
 <script>
-import DatePicker from "./components/DatePicker.vue"
+import DatePickerDesktop from "./components/DatePickerDesktop.vue"
+import DatePickerTablet from "./components/DatePickerTablet.vue"
 import DatePickerMobile from "./components/DatePickerMobile.vue"
 
 export default {
   name: "App",
   components: {
-    DatePicker,
+    DatePickerDesktop,
+    DatePickerTablet,
     DatePickerMobile,
   },
 
   mounted () {
-    console.log(this.$vuetify.break)
+    console.log(this.$vuetify.breakpoint)
   },
 }
 </script>
