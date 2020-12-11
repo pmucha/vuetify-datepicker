@@ -1,6 +1,7 @@
-# smartad-vuetify-datepicker
+# Vuetify Datepicker
 
 ## Project setup
+
 ```
 npm install
 ```
