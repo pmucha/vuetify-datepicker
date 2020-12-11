@@ -1,7 +1,10 @@
 <template>
-  <v-container>
-    <v-card class="date-picker-mobile elevation-2 mx-auto">
-      <v-card-text>
+  <v-container class="ma-0 pa-0">
+    <v-card
+      min-height="100vh"
+      class="date-picker-mobile elevation-0 ma-0 d-flex flex-column"
+    >
+      <v-card-text class="flex-grow-1">
         <v-row>
           <v-col cols="12" class="pt-0">
             <v-row>
@@ -12,10 +15,12 @@
                   type="date"
                   outlined
                   dense
+                  :max="$moment().format('YYYY-MM-DD')"
                   class="picker-input"
                 />
               </v-col>
             </v-row>
+
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -24,10 +29,12 @@
                   type="date"
                   outlined
                   dense
+                  :max="$moment().format('YYYY-MM-DD')"
                   class="picker-input"
                 />
               </v-col>
             </v-row>
+
             <v-row justify="start" class="pl-2 pr-1">
               <v-btn
                 depressed
@@ -62,6 +69,7 @@
                 >Previous month</v-btn
               >
             </v-row>
+
             <v-row class="pl-2 pt-0">
               <v-checkbox
                 v-model="compare"
@@ -69,6 +77,7 @@
                 class="compare-label pt-0"
               />
             </v-row>
+
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -78,6 +87,7 @@
                   type="date"
                   outlined
                   dense
+                  :max="$moment().format('YYYY-MM-DD')"
                   class="picker-input"
                 />
               </v-col>
@@ -91,6 +101,7 @@
                   type="date"
                   outlined
                   dense
+                  :max="$moment().format('YYYY-MM-DD')"
                   class="picker-input"
                 />
               </v-col>
@@ -132,8 +143,8 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn text class="px-4 mr-3">Cancel</v-btn>
-        <v-btn large class="primary px-7" @click="generateJson"> Apply </v-btn>
+        <v-btn text class="px-4 mr-3" @click="close">Cancel</v-btn>
+        <v-btn large class="primary px-7" @click="applyDates">Apply</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
@@ -145,6 +156,8 @@ const DATE_FORMAT = "YYYY-MM-DD"
 
 export default {
   name: "DatePickerMobile",
+
+  props: ["compare-ranges"],
 
   data () {
     return {
@@ -166,9 +179,11 @@ export default {
     ]
 
     this.pickerCompare = [
-      moment().subtract(15, "day").format(DATE_FORMAT),
+      moment().subtract(15, "days").format(DATE_FORMAT),
       moment().subtract(8, "days").format(DATE_FORMAT),
     ]
+
+    this.compare = this.compareRanges
   }, // mounted ()
 
 
@@ -255,22 +270,31 @@ export default {
       ]
     }, // setComparePreviousYear()
 
-    generateJson () {
-      console.log(JSON.stringify({
+    close () {
+      this.$emit("close")
+    }, // close()
+
+    applyDates () {
+      this.pickerMain.sort()
+      this.pickerCompare.sort()
+
+      this.$emit("change", {
         dateStart: this.pickerMain[0],
         dateUntil: this.pickerMain[1],
         compareStart: this.pickerCompare[0],
         compareUntil: this.pickerCompare[1],
         compare: this.compare,
-      }, null, 2))
-    }, // generateJson()
+      })
+
+      this.close()
+    }, // applyDates()
   }, // methods()
 } // export
 </script>
 
 
 <style lang="scss" scoped>
-@import "~vuetify/src/styles/styles.sass";
+// @import "~vuetify/src/styles/styles.sass";
 
 .date-picker-mobile::v-deep {
   width: 1040px;
