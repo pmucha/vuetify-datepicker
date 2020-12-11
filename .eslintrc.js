@@ -1,34 +1,34 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: [
     "plugin:vue/essential",
     "@vue/standard",
-    "eslint:recommended"
+    "eslint:recommended",
   ],
   parserOptions: {
     parser: "babel-eslint",
-    ecmaVersion: 2020
+    ecmaVersion: 2020,
   },
   rules: {
-    "indent": ["warn", 2],
+    indent: ["warn", 2],
     "linebreak-style": ["error", "unix"],
-    "quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
-    "semi": ["error", "never"],
+    quotes: ["error", "double", { avoidEscape: true, allowTemplateLiterals: true }],
+    semi: ["error", "never"],
     "no-nested-ternary": "error",
     "no-unneeded-ternary": "error",
-    "no-multiple-empty-lines": ["error", { "max": 2 }],
-    "yoda": "error",
+    "no-multiple-empty-lines": ["error", { max: 2 }],
+    yoda: "error",
     "comma-dangle": ["error", {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "ignore",
-      "exports": "ignore",
-      "functions": "ignore"
+      arrays: "always-multiline",
+      objects: "always-multiline",
+      imports: "ignore",
+      exports: "ignore",
+      functions: "ignore",
     }],
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
-  }
+    "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
+  },
 }
