@@ -6,8 +6,8 @@
     />
 
     <date-selector
-      icon-color="grey darken-1"
-      :class="`${this.inheritedClasses}`"
+      v-bind="$attrs"
+      :class="inheritedClasses"
       :date-start="dateStart"
       :date-until="dateUntil"
       :compare-start="compareStart"
@@ -18,18 +18,21 @@
 
     <div class="date-pickers-container" v-if="dateSelectorOpen">
       <date-picker-desktop
+        :config="config"
         :compare-ranges="compare"
         @change="dateSelectorChanged"
         @close="dateSelectorOpen = false"
         v-if="this.$vuetify.breakpoint.mdAndUp"
       />
       <date-picker-tablet
+        :config="config"
         :compare-ranges="compare"
         @change="dateSelectorChanged"
         @close="dateSelectorOpen = false"
-        v-else-if="this.$vuetify.breakpoint.smAndUp"
+        v-else-if="this.$vuetify.breakpoint.sm"
       />
       <date-picker-mobile
+        :config="config"
         :compare-ranges="compare"
         @change="dateSelectorChanged"
         @close="dateSelectorOpen = false"
@@ -41,19 +44,22 @@
 
 
 <script>
-import DateSelector from "./DateSelector.vue"
-import DatePickerDesktop from "./DatePickerDesktop.vue"
-import DatePickerTablet from "./DatePickerTablet.vue"
-import DatePickerMobile from "./DatePickerMobile.vue"
+import DateSelector from "./DatePicker/DateSelector.vue"
+import DatePickerDesktop from "./DatePicker/DatePickerDesktop.vue"
+import DatePickerTablet from "./DatePicker/DatePickerTablet.vue"
+import DatePickerMobile from "./DatePicker/DatePickerMobile.vue"
 
 export default {
-  name: "SubComponent",
+  name: "DatePicker",
   components: {
     DateSelector,
     DatePickerDesktop,
     DatePickerTablet,
     DatePickerMobile,
   },
+
+  inheritAttrs: false,
+  props: ["config"],
 
   data () {
     return {
@@ -63,22 +69,35 @@ export default {
       compareStart: null,
       compareUntil: null,
       compare: false,
+      // The following takes care of the classes which should not go to the root element
+      // but to the <date-selector /> which actually represents the whole picker
       inheritedClasses: "",
     }
   }, // data
 
   mounted () {
+    console.log("[DatePicker -> mounted()] config:", JSON.stringify(this.config, null, 2))
+
+    this.changeValues(this.config)
+
+    // The classes which are provided to the root element are passed to the <date-selector />
     this.inheritedClasses = this.$el.className
+    // We don't want to lose the default root element classes
     this.$el.className = "date-selector d-inline-flex align-center justify-center"
   },
 
   methods: {
-    dateSelectorChanged (v) {
-      this.dateStart = v.dateStart
-      this.dateUntil = v.dateUntil
-      this.compareStart = v.compareStart
-      this.compareUntil = v.compareUntil
-      this.compare = v.compare
+    dateSelectorChanged (newVals) {
+      this.changeValues(newVals)
+      this.$emit("change", newVals)
+    },
+
+    changeValues (newVals) {
+      this.dateStart = newVals.dateStart
+      this.dateUntil = newVals.dateUntil
+      this.compareStart = newVals.compareStart
+      this.compareUntil = newVals.compareUntil
+      this.compare = newVals.compare
     },
   }, // methods
 } // export

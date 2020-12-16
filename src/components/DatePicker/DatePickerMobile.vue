@@ -153,11 +153,12 @@
 
 <script>
 const DATE_FORMAT = "YYYY-MM-DD"
+const MONTH_FORMAT = "YYYY-MM"
 
 export default {
   name: "DatePickerMobile",
 
-  props: ["compare-ranges"],
+  props: ["config"],
 
   data () {
     return {
@@ -173,17 +174,28 @@ export default {
     const moment = this.$moment
     this.today = this.$moment().format(DATE_FORMAT)
 
-    this.pickerMain = [
-      moment().subtract(7, "days").format(DATE_FORMAT),
-      moment().subtract(1, "day").format(DATE_FORMAT),
-    ]
+    if (this.config) {
+      this.pickerMain = [this.config.dateStart, this.config.dateUntil]
+      this.pickerCompare = [this.config.compareStart, this.config.compareUntil]
 
-    this.pickerCompare = [
-      moment().subtract(15, "days").format(DATE_FORMAT),
-      moment().subtract(8, "days").format(DATE_FORMAT),
-    ]
+      this.pickerMainLeft = moment(this.config.dateStart).subtract(1, "month").format(MONTH_FORMAT)
+      this.pickerMainRight = moment(this.config.dateStart).format(MONTH_FORMAT)
 
-    this.compare = this.compareRanges
+      this.compare = this.config.compare
+    } else { // in case something weird happens and some defaults are needed
+      this.pickerMainLeft = moment().subtract(1, "month").format(MONTH_FORMAT)
+      this.pickerMainRight = moment().format(MONTH_FORMAT)
+
+      this.pickerMain = [
+        moment().subtract(7, "days").format(DATE_FORMAT),
+        moment().subtract(1, "day").format(DATE_FORMAT),
+      ]
+
+      this.pickerCompare = [
+        moment().subtract(15, "day").format(DATE_FORMAT),
+        moment().subtract(8, "days").format(DATE_FORMAT),
+      ]
+    }
   }, // mounted ()
 
 
@@ -297,8 +309,6 @@ export default {
 // @import "~vuetify/src/styles/styles.sass";
 
 .date-picker-mobile::v-deep {
-  width: 1040px;
-
   .picker-input {
     // Under the date inputs there is a place
     // for some details, which are completely
